@@ -1,0 +1,11 @@
+extends layouts/main-layout.pug 
+block content 
+    .accountInfoContainer
+        h4 #{userLoggedIn.userID}님의 계좌
+        p 잔액: #{userLoggedIn.money}$
+
+    h4 거래 내역
+    .logContainer
+
+block scripts
+    script(src="/js/home.js")

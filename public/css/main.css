@@ -1,0 +1,143 @@
+:root{
+    --blue:#000090;
+    --blueLight: #9BD1f9;
+    --buttonHoverBG: #d4edff;
+    --lightGrey: rgb(230, 236, 240);
+    --spacing: 15px;
+}
+
+*{
+    outline: none !important;
+}
+
+a {
+    color: inherit;
+}
+a:hover{
+    color: inherit;
+    text-decoration: none;
+}
+h1{
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0;
+}
+.wrapper{
+    display: flex;
+}
+nav {
+    width: 60px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    align-items: center;
+}
+nav a{
+    display: block;
+    font-size: 32px;
+    width: 55px;
+    height: 55px;
+    text-align: center;
+    text-decoration: none;
+    color: #212529;
+}
+nav a:hover{
+    border-radius: 50%;
+    background-color: var(--buttonHoverBG);
+    color:var(--blue);
+}
+nav img{
+    width: 32px;
+}
+
+.mainSectionContainer{
+    display: flex;
+    flex: 1;
+    padding: 10px;
+    border-left: 1px solid var(--lightGrey);
+    flex-direction: column;
+}
+.titleContainer{
+    height: 53px;
+    padding: 0 var(--spacing);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--lightGrey);
+    flex-shrink: 0;
+}
+.titleContainer h1{
+    flex: 1;
+}
+
+/* HOME */
+.accountInfoContainer{
+    color: white;
+    background-color: #000090;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    padding: 20px;
+}
+.accountInfoContainer p{
+    font-size: 48px;
+    font-weight: 800;
+    text-align: right;
+}
+h4{
+    font-weight: 800;
+}
+table{
+    width: 100%;
+    margin-bottom: 50px;
+}
+th, td{
+    width: 25%;
+}
+th{
+    background-color: lightgray;
+}
+tr{
+    border-bottom: 1px lightgray solid;
+}
+/*
+
+
+.postFormContainer{
+    display: flex;
+    padding: var(--spacing);
+    border-bottom: 10px solid rgb(230, 236, 240);
+    flex-shrink: 0;
+}
+
+.userImageContainer{
+    width: 50px;
+    height: 50px;   
+}
+.userImageContainer img{
+    width: 100%;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.textareaContainer{
+    flex: 1;
+    padding-left: var(--spacing);
+}
+
+.textareaContainer textarea{
+    width: 100%;
+    border: none;
+    resize: none;
+    font-size: 19px;
+}
+#submitPostButton{
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 7px 15px;
+}
+#submitPostButton:disabled{
+    background-color: var(--blueLight);
+}
+*/

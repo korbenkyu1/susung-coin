@@ -1,0 +1,12 @@
+extends layouts/main-layout.pug 
+block content 
+    h1 내 잔액: #{userLoggedIn.money}$
+    form(method="post")
+        p.errorMessage.text-danger.font-weight-bold #{errorMessage}
+        h1 누구에게 보낼까요?
+        input(type="text", name="to", autocomplete="off", placeholder="학번/교실" required="")
+        h1 얼마나 보낼까요?
+        input#money(type="number", name="money", placeholder="100", min="1", autocomplete="off", required="")
+        input(type="submit", value="송금")
+block scripts 
+    script(src="/js/remit.js") 
