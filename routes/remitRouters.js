@@ -20,48 +20,49 @@ router.get("/", (req, res, next) => {
     res.status(200).render("remit", payload);
 });
 router.post("/", async (req, res, next) => {
-    var from = req.session.user.userID;
-    var to = req.body.to;
-    var moneySent = parseInt(req.body.money);
-    var payload = {
-        pageTitle: "송금",
-        userLoggedIn: req.session.user,
-    }
-    const fromUser = await User.findOne({userID: from});
+    const fromUser = await User.findOne({userID: req.session.user.userID});
+    const toUser = await User.findOne({userID: req.body.to});
+    const moneySent = parseInt(req.body.money);
 
     // 관리자가 아니라면
     if(fromUser.isAdmin === false){
-        toUser = await User.findOne({userID: to});
-        // 송금 대상이 없는지
+        var payload = {
+            pageTitle: "",
+            userLoggedIn: req.session.user,
+        }
+        // 송금 대상이 있는지
         if(toUser == null){
             payload.pageTitle = "송금 실패";
             payload.errorMessage = "송금 대상을 찾을 수 없습니다.";
             return res.status(200).render("remit", payload);
         }
-        // 학생, 부스간 
+        // 송금 가능한 대상인지
         if(fromUser.isBooth === toUser.isBooth){
             payload.pageTitle = "송금 실패";
-            payload.errorMessage = "잘못된 송금 대상입니다.";
+            payload.errorMessage = "올바르지 않은 송금 대상입니다.";
             return res.status(200).render("remit", payload);
         }
-        
+        // 송금 금액이 양수인지
+        if(moneySent <= 0){
+            payload.pageTitle = "송금 실패";
+            payload.errorMessage = "올바르지 않은 송금 금액입니다.";
+            return res.status(200).render("remit", payload);
+        }
         // 송금 금액이 충분한지
-        if(moneySent > 0 && req.session.user.money < moneySent){
+        if(fromUser.money < moneySent){
             payload.pageTitle = "송금 실패";
             payload.errorMessage = "잔액이 부족합니다.";
             return res.status(200).render("remit", payload);
         }
     }
         
-    await User.updateOne({userID: to}, {'$inc': {money: +moneySent}});
-    req.session.user = await User.findOneAndUpdate({userID: from}, {'$inc': {money: -moneySent}}, {returnOriginal: false});
-    console.log(req.session.user)
+    await User.updateOne({userID: toUser.userID}, {'$inc': {money: +moneySent}});
+    req.session.user = await User.findOneAndUpdate({userID: fromUser.userID}, {'$inc': {money: -moneySent}}, {returnOriginal: false});
     var data = {
-        from: from,
-        to: to,
+        from: fromUser.userID,
+        to: toUser.userID,
         money: moneySent
     }
-    console.dir(data);
     Log.create(data);
     res.redirect("/");
 });
