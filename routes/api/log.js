@@ -12,14 +12,21 @@ router.get("/", (req, res, next) => {
     if(!req.session.user){
         return res.redirect('/login');
     }
-    const userID = req.session.user.userID;
-    Log.find({
-        $or: [
-            {from: userID},
-            {to: userID}
-        ]
-    })
-    .sort({'createdAt': 1})
-    .then(results => res.status(200).send(results));
+    const user = await User.findOne({userID: req.session.user.userID});
+    if(user.isAdmin){
+        Log.find({})
+        .sort({'createdAt': 1})
+        .then(results => res.status(200).send(results));
+    }
+    else{
+        Log.find({
+            $or: [
+                {from: user.userID},
+                {to: user.userID}
+            ]
+        })
+        .sort({'createdAt': 1})
+        .then(results => res.status(200).send(results));
+    }
 });
 module.exports = router;
