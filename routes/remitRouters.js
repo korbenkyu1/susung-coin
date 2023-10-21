@@ -63,8 +63,6 @@ router.post("/", async (req, res, next) => {
     }
     console.dir(data);
     Log.create(data);
-    
-    payload.pageTitle = "송금 완료";
-    res.status(200).render("remit", payload);
+    res.redirect("/");
 });
 module.exports = router; 
