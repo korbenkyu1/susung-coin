@@ -8,7 +8,7 @@ const Log = require('../../schemas/LogSchema')
 
 app.use(bodyParser.urlencoded({ extended: false }))
  
-router.get("/", (req, res, next) => {
+router.get("/", async (req, res, next) => {
     if(!req.session.user){
         return res.redirect('/login');
     }
