@@ -28,7 +28,6 @@ router.post("/", async (req, res, next) => {
         if(user == null){
             var data = req.body;
             data.password = await bcrypt.hash(password, 1);
-            console.log(data);
             User.create(data)
             .then((user) => {
                 req.session.user = user;
