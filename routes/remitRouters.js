@@ -54,6 +54,18 @@ router.post("/", async (req, res, next) => {
             payload.errorMessage = "잔액이 부족합니다.";
             return res.status(200).render("remit", payload);
         }
+        // 중복 송금 방지
+        const log = await Log.findOne({
+            $and: [
+                {from: fromUser.userID},
+                {to: toUser.userID}
+            ]
+        })
+        if(!toUser.isAdmin && log){
+            payload.pageTitle = "송금 실패";
+            payload.errorMessage = "이미 송금한 송금 대상입니다.";
+            return res.status(200).render("remit", payload);
+        }
     }
         
     await User.updateOne({userID: toUser.userID}, {'$inc': {money: +moneySent}});
